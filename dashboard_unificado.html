@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JurisFlow - Gestão de Automações</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .sidebar-active { background-color: #1e293b; border-left: 4px solid #3b82f6; }
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        /* Custom scrollbar para visual premium */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col md:flex-row">
+
+    <!-- Mobile Header -->
+    <div class="md:hidden bg-slate-900 text-white p-4 flex justify-between items-center">
+        <h1 class="text-xl font-bold text-blue-400">JurisFlow</h1>
+        <button onclick="toggleMobileMenu()" class="text-2xl">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-slate-900 z-[60] hidden flex-col p-8">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-2xl font-bold text-blue-400">JurisFlow</h1>
+            <button onclick="toggleMobileMenu()" class="text-2xl text-white">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <nav class="space-y-4">
+            <a href="#" onclick="showPage('overview'); toggleMobileMenu()" class="block text-xl text-slate-300 py-2 border-b border-slate-800">Visão Geral</a>
+            <a href="#" onclick="showPage('reports'); toggleMobileMenu()" class="block text-xl text-slate-300 py-2 border-b border-slate-800">Relatórios</a>
+            <a href="#" onclick="showPage('whatsapp'); toggleMobileMenu()" class="block text-xl text-slate-300 py-2 border-b border-slate-800">Config. WhatsApp</a>
+        </nav>
+    </div>
+
+    <!-- Sidebar Desktop -->
+    <aside class="w-64 bg-slate-900 text-white flex-shrink-0 hidden md:flex flex-col">
+        <div class="p-6">
+            <h1 class="text-2xl font-bold tracking-tight text-blue-400">JurisFlow</h1>
+            <p class="text-xs text-slate-400 uppercase tracking-widest mt-1">Sistemas Jurídicos</p>
+        </div>
+        
+        <nav class="mt-6 flex-1">
+            <a href="#" onclick="showPage('overview')" id="nav-overview" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-800 transition-colors sidebar-active">
+                <i class="fas fa-chart-line w-5 mr-3"></i>
+                <span>Visão Geral</span>
+            </a>
+            <a href="#" onclick="showPage('reports')" id="nav-reports" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-800 transition-colors">
+                <i class="fas fa-file-contract w-5 mr-3"></i>
+                <span>Relatórios</span>
+            </a>
+            <a href="#" onclick="showPage('whatsapp')" id="nav-whatsapp" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-800 transition-colors">
+                <i class="fab fa-whatsapp w-5 mr-3"></i>
+                <span>Config. WhatsApp</span>
+            </a>
+        </nav>
+
+        <div class="p-6 border-t border-slate-800">
+            <div class="flex items-center">
+                <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-xs font-bold">AD</div>
+                <div class="ml-3">
+                    <p class="text-sm font-medium">Dr. Advogado</p>
+                    <p class="text-xs text-slate-500">Plano Premium</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col overflow-x-hidden">
+        <!-- Header -->
+        <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8">
+            <h2 id="page-title" class="text-xl font-semibold text-slate-800">Visão Geral</h2>
+            <div class="flex items-center space-x-4">
+                <span class="flex items-center text-sm text-green-600 font-medium">
+                    <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                    Sistemas Online
+                </span>
+                <button class="p-2 text-slate-400 hover:text-slate-600">
+                    <i class="fas fa-bell"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Page Content Area -->
+        <div id="content-area" class="p-8 overflow-y-auto">
+            
+            <!-- SEÇÃO: VISÃO GERAL -->
+            <section id="page-overview" class="space-y-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-sm text-slate-500 font-medium">Transcrição de Áudios</p>
+                                <h3 class="text-3xl font-bold mt-1" id="stat-audios">0</h3>
+                            </div>
+                            <div class="p-3 bg-blue-50 text-blue-600 rounded-lg">
+                                <i class="fas fa-microphone"></i>
+                            </div>
+                        </div>
+                        <p class="text-xs text-green-600 mt-4 font-medium"><i class="fas fa-arrow-up mr-1"></i> 12% desde o último mês</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-sm text-slate-500 font-medium">Leads Atendidos</p>
+                                <h3 class="text-3xl font-bold mt-1" id="stat-leads">0</h3>
+                            </div>
+                            <div class="p-3 bg-indigo-50 text-indigo-600 rounded-lg">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                        </div>
+                        <p class="text-xs text-green-600 mt-4 font-medium"><i class="fas fa-arrow-up mr-1"></i> 8% hoje</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-sm text-slate-500 font-medium">Reuniões Registradas</p>
+                                <h3 class="text-3xl font-bold mt-1" id="stat-meetings">0</h3>
+                            </div>
+                            <div class="p-3 bg-slate-50 text-slate-600 rounded-lg">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-4 font-medium">Total acumulado</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+                    <div class="p-6 border-b border-slate-100">
+                        <h4 class="font-semibold text-slate-800">Status dos Serviços</h4>
+                    </div>
+                    <div class="divide-y divide-slate-100">
+                        <div class="p-6 flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-blue-900 flex items-center justify-center text-white">
+                                    <i class="fab fa-telegram-plane"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <p class="font-medium">Bot Telegram (Transcrição)</p>
+                                    <p class="text-xs text-slate-500">Processamento de áudios e atas</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <span id="status-telegram" class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">ATIVO</span>
+                                <button onclick="toggleService('telegram')" class="px-4 py-2 bg-slate-800 text-white text-sm rounded-lg hover:bg-slate-700 transition-colors">Alternar</button>
+                            </div>
+                        </div>
+                        <div class="p-6 flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center text-white">
+                                    <i class="fab fa-whatsapp"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <p class="font-medium">Atendente Virtual (WhatsApp)</p>
+                                    <p class="text-xs text-slate-500">Triagem de leads e agendamentos</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <span id="status-whatsapp" class="px-3 py-1 bg-red-100 text-red-700 text-xs font-bold rounded-full">INATIVO</span>
+                                <button onclick="toggleService('whatsapp')" class="px-4 py-2 bg-slate-800 text-white text-sm rounded-lg hover:bg-slate-700 transition-colors">Alternar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEÇÃO: RELATÓRIOS -->
+            <section id="page-reports" class="hidden space-y-6">
+                <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-slate-50 border-b border-slate-100">
+                            <tr>
+                                <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase">Data</th>
+                                <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase">Reunião</th>
+                                <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase text-right">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reports-list" class="divide-y divide-slate-100">
+                            <!-- Inserido via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SEÇÃO: WHATSAPP -->
+            <section id="page-whatsapp" class="hidden max-w-2xl mx-auto">
+                <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-100 space-y-6">
+                    <div>
+                        <h4 class="text-lg font-semibold text-slate-800">Configuração Evolution API</h4>
+                        <p class="text-sm text-slate-500">Conecte sua instância do WhatsApp para o Atendente Virtual.</p>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Nome da Instância</label>
+                            <input type="text" id="instance-name" placeholder="Ex: Advocacia_Silva" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all">
+                        </div>
+                        <button onclick="generateQRCode()" class="w-full py-3 bg-blue-900 text-white font-semibold rounded-lg hover:bg-blue-800 transition-colors flex items-center justify-center">
+                            <i class="fas fa-qrcode mr-2"></i> Gerar QR Code
+                        </button>
+                    </div>
+
+                    <div id="qr-container" class="hidden flex flex-col items-center justify-center p-6 border-2 border-dashed border-slate-200 rounded-xl bg-slate-50">
+                        <div id="qr-placeholder" class="text-slate-400 text-center">
+                            <i class="fas fa-spinner fa-spin text-3xl mb-2"></i>
+                            <p class="text-sm">Aguardando resposta da API...</p>
+                        </div>
+                        <img id="qr-code-img" class="hidden max-w-xs shadow-lg rounded-lg border-4 border-white" src="" alt="QR Code WhatsApp">
+                        <p id="connection-status-text" class="mt-4 text-sm font-medium text-red-600">Status: Desconectado</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- MODAL DE RELATÓRIO -->
+    <div id="report-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden z-[100] flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-3xl max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                <div>
+                    <h3 id="modal-title" class="text-xl font-bold text-slate-800">Relatório de Reunião</h3>
+                    <p id="modal-date" class="text-sm text-slate-500"></p>
+                </div>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="p-8 overflow-y-auto space-y-6">
+                <div>
+                    <h4 class="text-xs font-bold text-blue-600 uppercase tracking-widest mb-2">Pontos Principais (IA)</h4>
+                    <div id="modal-summary" class="bg-blue-50 p-4 rounded-xl text-slate-700 leading-relaxed italic border-l-4 border-blue-500">
+                        <!-- Conteúdo via JS -->
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Transcrição Completa</h4>
+                    <div id="modal-content" class="text-slate-700 leading-relaxed whitespace-pre-line">
+                        <!-- Conteúdo via JS -->
+                    </div>
+                </div>
+            </div>
+            <div class="p-6 border-t border-slate-100 flex justify-end">
+                <button onclick="closeModal()" class="px-6 py-2 bg-slate-800 text-white rounded-lg font-medium">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LÓGICA JAVASCRIPT -->
+    <script>
+        // --- CONFIGURAÇÕES DE WEBHOOKS N8N ---
+        const WEBHOOK_TOGGLE = "https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook/LigarDesligarAutoma";
+        const WEBHOOK_GET_REPORTS = "https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook/get-reports"; 
+        const WEBHOOK_QR_CODE = "https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook/generate-qr";
+
+        // --- ESTADO DA APLICAÇÃO ---
+        let currentServiceStatus = {
+            telegram: true,
+            whatsapp: false
+        };
+
+        // --- NAVEGAÇÃO SPA ---
+        function showPage(pageId) {
+            // Esconder todas as seções
+            document.querySelectorAll('section').forEach(section => section.classList.add('hidden'));
+            
+            // Mostrar a seção selecionada
+            document.getElementById(`page-${pageId}`).classList.remove('hidden');
+            
+            // Atualizar título do header
+            const titles = {
+                'overview': 'Visão Geral',
+                'reports': 'Relatórios de Reuniões',
+                'whatsapp': 'Configuração WhatsApp'
+            };
+            document.getElementById('page-title').innerText = titles[pageId];
+            
+            // Atualizar sidebar (desktop)
+            document.querySelectorAll('aside nav a').forEach(nav => nav.classList.remove('sidebar-active'));
+            const activeNav = document.getElementById(`nav-${pageId}`);
+            if (activeNav) activeNav.classList.add('sidebar-active');
+
+            // Carregar dados específicos
+            if (pageId === 'reports') loadReports();
+        }
+
+        // --- MENU MOBILE ---
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('flex');
+        }
+
+        // --- ALTERNAR STATUS DO SERVIÇO (POST PARA N8N) ---
+        async function toggleService(service) {
+            const statusLabel = document.getElementById(`status-${service}`);
+            const originalText = statusLabel.innerText;
+            
+            try {
+                statusLabel.innerText = "PROCESSANDO...";
+                statusLabel.className = "px-3 py-1 bg-yellow-100 text-yellow-700 text-xs font-bold rounded-full";
+
+                const response = await fetch(WEBHOOK_TOGGLE, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        servico: service,
+                        acao: currentServiceStatus[service] ? 'desligar' : 'ligar',
+                        timestamp: new Date().toISOString()
+                    })
+                });
+
+                if (response.ok) {
+                    currentServiceStatus[service] = !currentServiceStatus[service];
+                    updateStatusUI(service);
+                } else {
+                    throw new Error('Falha na comunicação');
+                }
+            } catch (error) {
+                console.error("Erro ao alternar serviço:", error);
+                alert("Erro ao comunicar com o n8n. Verifique o console ou as configurações de CORS.");
+                updateStatusUI(service);
+            }
+        }
+
+        function updateStatusUI(service) {
+            const statusLabel = document.getElementById(`status-${service}`);
+            if (currentServiceStatus[service]) {
+                statusLabel.innerText = "ATIVO";
+                statusLabel.className = "px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full";
+            } else {
+                statusLabel.innerText = "INATIVO";
+                statusLabel.className = "px-3 py-1 bg-red-100 text-red-700 text-xs font-bold rounded-full";
+            }
+        }
+
+        // --- GERAR QR CODE (EVOLUTION API VIA N8N) ---
+        async function generateQRCode() {
+            const instanceName = document.getElementById('instance-name').value;
+            if (!instanceName) {
+                alert("Por favor, digite o nome da instância.");
+                return;
+            }
+
+            const qrContainer = document.getElementById('qr-container');
+            const qrPlaceholder = document.getElementById('qr-placeholder');
+            const qrImg = document.getElementById('qr-code-img');
+            const statusText = document.getElementById('connection-status-text');
+
+            qrContainer.classList.remove('hidden');
+            qrPlaceholder.classList.remove('hidden');
+            qrImg.classList.add('hidden');
+            statusText.innerText = "Status: Aguardando...";
+
+            try {
+                const response = await fetch(WEBHOOK_QR_CODE, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ instanceName: instanceName })
+                });
+
+                const data = await response.json();
+                
+                // Espera-se que o n8n retorne { "qrcode": "data:image/png;base64,..." }
+                if (data && data.qrcode) {
+                    qrImg.src = data.qrcode;
+                    qrImg.classList.remove('hidden');
+                    qrPlaceholder.classList.add('hidden');
+                    statusText.innerText = "Status: QR Code Gerado. Escaneie agora.";
+                    statusText.className = "mt-4 text-sm font-medium text-blue-600";
+                } else {
+                    throw new Error("Formato de QR Code inválido");
+                }
+            } catch (error) {
+                console.error("Erro ao gerar QR Code:", error);
+                statusText.innerText = "Status: Erro na API.";
+                qrPlaceholder.innerHTML = `<p class="text-red-500 text-xs font-bold">Falha ao obter QR Code do n8n</p>`;
+            }
+        }
+
+        // --- CARREGAR RELATÓRIOS (MOCK + WEBHOOK) ---
+        async function loadReports() {
+            const reportsList = document.getElementById('reports-list');
+            reportsList.innerHTML = `<tr><td colspan="3" class="px-6 py-8 text-center text-slate-400"><i class="fas fa-spinner fa-spin mr-2"></i> Buscando dados no n8n...</td></tr>`;
+
+            try {
+                const response = await fetch(WEBHOOK_GET_REPORTS).catch(() => null);
+                let reports = [];
+
+                if (response && response.ok) {
+                    reports = await response.json();
+                } else {
+                    // DADOS MOCK (Exemplo visual caso o webhook não retorne dados ainda)
+                    reports = [
+                        { id: 1, data: '04/02/2026', titulo: 'Audiência de Conciliação - Caso Silva vs. Oliveira', resumo: 'Acordo parcial estabelecido sobre as parcelas atrasadas. Próxima reunião em 15 dias.', transcricao: 'Início da gravação... Advogado A: Bom dia. Advogado B: Bom dia. Juiz: Iniciando os trabalhos para tentativa de conciliação...' },
+                        { id: 2, data: '03/02/2026', titulo: 'Consultoria Tributária - Empresa TechMax', resumo: 'Discussão sobre planejamento tributário 2026. Foco em redução de ICMS.', transcricao: 'Transcrição completa da consultoria técnica sobre impostos estaduais e federais para o próximo ano fiscal...' }
+                    ];
+                }
+
+                reportsList.innerHTML = '';
+                reports.forEach(report => {
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-slate-50 transition-colors";
+                    tr.innerHTML = `
+                        <td class="px-6 py-4 text-sm text-slate-600 font-medium">${report.data}</td>
+                        <td class="px-6 py-4 text-sm text-slate-800 font-semibold">${report.titulo}</td>
+                        <td class="px-6 py-4 text-right">
+                            <button id="btn-report-${report.id}" class="text-blue-600 hover:text-blue-800 font-bold text-sm">Ver Relatório</button>
+                        </td>
+                    `;
+                    reportsList.appendChild(tr);
+                    
+                    // Listener para o modal
+                    document.getElementById(`btn-report-${report.id}`).addEventListener('click', () => openReport(report));
+                });
+
+                // Atualizar estatísticas na Home
+                document.getElementById('stat-meetings').innerText = reports.length;
+                document.getElementById('stat-audios').innerText = reports.length * 3;
+                document.getElementById('stat-leads').innerText = "24";
+                
+            } catch (error) {
+                console.error("Erro ao carregar relatórios:", error);
+                reportsList.innerHTML = `<tr><td colspan="3" class="px-6 py-8 text-center text-red-400 font-bold">Erro ao carregar dados do n8n.</td></tr>`;
+            }
+        }
+
+        // --- LÓGICA DO MODAL ---
+        function openReport(report) {
+            document.getElementById('modal-title').innerText = report.titulo;
+            document.getElementById('modal-date').innerText = report.data;
+            document.getElementById('modal-summary').innerText = report.resumo;
+            document.getElementById('modal-content').innerText = report.transcricao;
+            document.getElementById('report-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('report-modal').classList.add('hidden');
+        }
+
+        // --- INICIALIZAÇÃO ---
+        document.addEventListener('DOMContentLoaded', () => {
+            loadReports();
+        });
+    </script>
+</body>
+</html>
