@@ -43,93 +43,78 @@
 
     <aside class="w-64 bg-slate-900 text-white flex-shrink-0 hidden md:flex flex-col">
         <div class="p-6">
-            <h1 class="text-2xl font-bold tracking-tight text-blue-400">Ominus tech</h1>
-            <p class="text-xs text-slate-400 uppercase tracking-widest mt-1">Sistemas Jurídicos</p>
+            <h1 class="text-2xl font-bold text-blue-400">Ominus tech</h1>
+            <p class="text-xs text-slate-400 uppercase tracking-wider mt-1 font-semibold">Sistemas Jurídicos</p>
         </div>
-        
         <nav class="mt-6 flex-1">
             <a href="#" onclick="showPage('overview')" id="nav-overview" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-800 transition-colors sidebar-active">
-                <i class="fas fa-chart-line w-5 mr-3"></i>
-                <span>Visão Geral</span>
+                <i class="fas fa-chart-line w-5 mr-3"></i> <span>Visão Geral</span>
             </a>
             <a href="#" onclick="showPage('reports')" id="nav-reports" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-800 transition-colors">
-                <i class="fas fa-file-contract w-5 mr-3"></i>
-                <span>Relatórios</span>
+                <i class="fas fa-file-contract w-5 mr-3"></i> <span>Relatórios</span>
             </a>
             <a href="#" onclick="showPage('whatsapp')" id="nav-whatsapp" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-800 transition-colors">
-                <i class="fab fa-whatsapp w-5 mr-3"></i>
-                <span>Config. WhatsApp</span>
+                <i class="fab fa-whatsapp w-5 mr-3"></i> <span>Config. WhatsApp</span>
             </a>
         </nav>
-
-        <div class="p-6 border-t border-slate-800">
-            <div class="flex items-center">
-                <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-xs font-bold">AD</div>
-                <div class="ml-3">
-                    <p class="text-sm font-medium">Dr. Advogado</p>
-                    <p class="text-xs text-slate-500">Plano Premium</p>
-                </div>
-            </div>
-        </div>
     </aside>
 
-    <main class="flex-1 flex flex-col overflow-x-hidden">
-        <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8">
+    <main class="flex-1 flex flex-col overflow-hidden">
+        <header class="h-16 bg-white border-b flex items-center justify-between px-8 flex-shrink-0">
             <h2 id="page-title" class="text-xl font-semibold text-slate-800">Visão Geral</h2>
-            <div class="flex items-center space-x-4">
-                <span class="flex items-center text-sm text-green-600 font-medium">
-                    <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
-                    Sistemas Online
-                </span>
-            </div>
         </header>
 
-        <div id="content-area" class="p-8 overflow-y-auto">
+        <div id="content-area" class="p-4 md:p-8 overflow-y-auto">
+            
             <section id="page-overview" class="space-y-8">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                        <p class="text-sm text-slate-500 font-medium">Transcrição de Áudios</p>
-                        <h3 class="text-3xl font-bold mt-1" id="stat-audios">0</h3>
+                        <p class="text-sm text-slate-500 font-medium uppercase tracking-wider">Transcrições Realizadas</p>
+                        <h3 class="text-3xl font-bold text-slate-800 mt-1" id="stat-audios">0</h3>
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                        <p class="text-sm text-slate-500 font-medium">Leads Atendidos</p>
-                        <h3 class="text-3xl font-bold mt-1" id="stat-leads">0</h3>
+                        <p class="text-sm text-slate-500 font-medium uppercase tracking-wider">Leads Qualificados</p>
+                        <h3 class="text-3xl font-bold text-slate-800 mt-1" id="stat-leads">0</h3>
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                        <p class="text-sm text-slate-500 font-medium">Reuniões Registradas</p>
-                        <h3 class="text-3xl font-bold mt-1" id="stat-meetings">0</h3>
+                        <p class="text-sm text-slate-500 font-medium uppercase tracking-wider">Reuniões no Dashboard</p>
+                        <h3 class="text-3xl font-bold text-slate-800 mt-1" id="stat-meetings">0</h3>
                     </div>
                 </div>
 
                 <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
-                    <div class="p-6 border-b border-slate-100">
-                        <h4 class="font-semibold text-slate-800">Status dos Serviços</h4>
+                    <div class="p-6 border-b border-slate-50">
+                        <h4 class="font-semibold text-slate-800">Status dos Sistemas em Tempo Real</h4>
                     </div>
-                    <div class="divide-y divide-slate-100">
-                        <div class="p-6 flex items-center justify-between">
+                    <div class="divide-y divide-slate-50">
+                        <div class="p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
                             <div class="flex items-center">
-                                <div class="w-10 h-10 rounded-full bg-blue-900 flex items-center justify-center text-white"><i class="fab fa-telegram-plane"></i></div>
-                                <div class="ml-4">
-                                    <p class="font-medium">Bot Telegram (Transcrição)</p>
-                                    <p class="text-xs text-slate-500">Processamento de áudios e atas</p>
+                                <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 mr-4">
+                                    <i class="fab fa-telegram-plane text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-slate-800">Bot de Transcrição Jurídica</p>
+                                    <p class="text-xs text-slate-500">ID: CEgSq4eHemj2IInY</p>
                                 </div>
                             </div>
                             <div class="flex items-center space-x-4">
                                 <span id="status-telegram" class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">ATIVO</span>
-                                <button onclick="toggleService('telegram')" class="px-4 py-2 bg-slate-800 text-white text-sm rounded-lg hover:bg-slate-700 transition-colors">Alternar</button>
+                                <button onclick="toggleService('telegram')" class="px-4 py-2 bg-slate-800 text-white text-sm font-medium rounded-lg hover:bg-slate-700 transition-colors">Alternar</button>
                             </div>
                         </div>
-                        <div class="p-6 flex items-center justify-between">
+                        <div class="p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
                             <div class="flex items-center">
-                                <div class="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center text-white"><i class="fab fa-whatsapp"></i></div>
-                                <div class="ml-4">
-                                    <p class="font-medium">Atendente Virtual (WhatsApp)</p>
-                                    <p class="text-xs text-slate-500">Triagem de leads e agendamentos</p>
+                                <div class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-600 mr-4">
+                                    <i class="fab fa-whatsapp text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-slate-800">Assistente Evolution (WhatsApp)</p>
+                                    <p class="text-xs text-slate-500">Triagem de Novos Clientes</p>
                                 </div>
                             </div>
                             <div class="flex items-center space-x-4">
                                 <span id="status-whatsapp" class="px-3 py-1 bg-red-100 text-red-700 text-xs font-bold rounded-full">INATIVO</span>
-                                <button onclick="toggleService('whatsapp')" class="px-4 py-2 bg-slate-800 text-white text-sm rounded-lg hover:bg-slate-700 transition-colors">Alternar</button>
+                                <button onclick="toggleService('whatsapp')" class="px-4 py-2 bg-slate-800 text-white text-sm font-medium rounded-lg hover:bg-slate-700 transition-colors">Alternar</button>
                             </div>
                         </div>
                     </div>
@@ -138,128 +123,199 @@
 
             <section id="page-reports" class="hidden space-y-6">
                 <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
-                    <table class="w-full text-left">
-                        <thead class="bg-slate-50 border-b border-slate-100">
-                            <tr>
-                                <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase">Data</th>
-                                <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase">Reunião</th>
-                                <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase text-right">Ação</th>
-                            </tr>
-                        </thead>
-                        <tbody id="reports-list" class="divide-y divide-slate-100"></tbody>
-                    </table>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-100">
+                                    <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Data/Hora</th>
+                                    <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Título da Reunião</th>
+                                    <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reports-list" class="divide-y divide-slate-50">
+                                </tbody>
+                        </table>
+                    </div>
                 </div>
             </section>
 
             <section id="page-whatsapp" class="hidden max-w-2xl mx-auto">
                 <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-100 space-y-6">
-                    <div>
-                        <h4 class="text-lg font-semibold text-slate-800">Configuração Evolution API</h4>
-                        <p class="text-sm text-slate-500">Conecte sua instância do WhatsApp.</p>
+                    <div class="text-center">
+                        <h4 class="text-xl font-bold text-slate-800">Conectar Assistente</h4>
+                        <p class="text-slate-500 text-sm mt-1">Sincronize sua instância da Evolution API</p>
                     </div>
+                    
                     <div class="space-y-4">
-                        <input type="text" id="instance-name" placeholder="Ex: Advocacia_Silva" class="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none">
-                        <button onclick="generateQRCode()" class="w-full py-3 bg-blue-900 text-white font-semibold rounded-lg hover:bg-blue-800 transition-colors">Gerar QR Code</button>
+                        <label class="block text-sm font-medium text-slate-700">Nome da Instância</label>
+                        <input type="text" id="instance-name" placeholder="Digite o nome da empresa" class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                        <button onclick="generateQRCode()" class="w-full py-3 bg-blue-900 text-white font-bold rounded-lg hover:bg-blue-800 transition-all shadow-lg">
+                            Visualizar QR Code de Conexão
+                        </button>
                     </div>
-                    <div id="qr-container" class="hidden flex flex-col items-center justify-center p-6 border-2 border-dashed border-slate-200 rounded-xl bg-slate-50">
-                        <div id="qr-placeholder" class="text-slate-400 text-center"><i class="fas fa-spinner fa-spin text-3xl mb-2"></i></div>
-                        <img id="qr-code-img" class="hidden max-w-xs shadow-lg rounded-lg border-4 border-white" src="" alt="QR Code">
-                        <p id="connection-status-text" class="mt-4 text-sm font-medium text-red-600">Status: Desconectado</p>
+
+                    <div id="qr-container" class="hidden flex flex-col items-center justify-center p-8 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50">
+                        <div id="qr-placeholder" class="text-slate-400 text-center">
+                            <i class="fas fa-sync fa-spin text-4xl mb-3"></i>
+                            <p class="text-sm">Buscando na Evolution API...</p>
+                        </div>
+                        <img id="qr-code-img" class="hidden max-w-[250px] shadow-2xl rounded-xl border-8 border-white" src="" alt="QR Code">
+                        <p id="qr-status" class="mt-6 text-sm font-semibold text-slate-600">Status: Aguardando...</p>
                     </div>
                 </div>
             </section>
         </div>
     </main>
 
-    <div id="report-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden z-[100] flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-3xl max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col">
-            <div class="p-6 border-b border-slate-100 flex justify-between items-center">
-                <h3 id="modal-title" class="text-xl font-bold"></h3>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times"></i></button>
+    <div id="report-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-[100] flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-3xl max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col border border-white/20">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                <h3 id="modal-title" class="text-xl font-bold text-slate-800"></h3>
+                <button onclick="closeModal()" class="w-10 h-10 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-400 transition-colors">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
             </div>
-            <div class="p-8 overflow-y-auto">
-                <div id="modal-summary" class="bg-blue-50 p-4 rounded-xl mb-4"></div>
-                <div id="modal-content" class="text-slate-700 whitespace-pre-line"></div>
+            <div class="p-8 overflow-y-auto space-y-6">
+                <div class="bg-blue-50/50 p-6 rounded-2xl border border-blue-100">
+                    <h4 class="text-xs font-bold text-blue-600 uppercase tracking-widest mb-2">Resumo da IA</h4>
+                    <p id="modal-summary" class="text-blue-900 leading-relaxed font-medium"></p>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Transcrição Completa</h4>
+                    <div id="modal-content" class="text-slate-700 leading-relaxed whitespace-pre-line text-sm"></div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // --- CONFIGURAÇÕES DE WEBHOOKS N8N ---
-        const WEBHOOK_TOGGLE = "https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook/LigarDesligarAutoma";
-        const WEBHOOK_GET_REPORTS = "https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook/get-reports"; 
-        const WEBHOOK_QR_CODE = "https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook/generate-qr";
-
-        let currentServiceStatus = {
-            telegram: true,
-            whatsapp: false
-        };
+        const BASE_URL = "https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook";
+        let currentServiceStatus = { telegram: true, whatsapp: false };
 
         function showPage(pageId) {
-            document.querySelectorAll('section').forEach(section => section.classList.add('hidden'));
+            document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
             document.getElementById(`page-${pageId}`).classList.remove('hidden');
-            const titles = { 'overview': 'Visão Geral', 'reports': 'Relatórios', 'whatsapp': 'Config. WhatsApp' };
-            document.getElementById('page-title').innerText = titles[pageId];
-            document.querySelectorAll('aside nav a').forEach(nav => nav.classList.remove('sidebar-active'));
+            
+            document.querySelectorAll('aside nav a').forEach(a => a.classList.remove('sidebar-active'));
             document.getElementById(`nav-${pageId}`).classList.add('sidebar-active');
-            if (pageId === 'reports') loadReports();
+            
+            document.getElementById('page-title').innerText = 
+                pageId === 'overview' ? 'Visão Geral' : 
+                pageId === 'reports' ? 'Relatórios de Reuniões' : 'Configuração WhatsApp';
+            
+            if(pageId === 'reports') loadReports();
         }
 
-        // --- FUNÇÃO AJUSTADA PARA O SEU N8N ---
         async function toggleService(service) {
-            // 1. COLOQUE OS IDs DOS SEUS WORKFLOWS AQUI
             const workflowIds = {
-                'telegram': 'CEgSq4eHemj2IInY', 
-                'whatsapp': 'ID_AQUI_WORKFLOW_WHATSAPP'
+                'telegram': 'CEgSq4eHemj2IInY',
+                'whatsapp': 'Ws9A66QGfpjkpyXnb_6gY' 
             };
+            const label = document.getElementById(`status-${service}`);
+            const acao = currentServiceStatus[service] ? 'off' : 'on';
 
-            const statusLabel = document.getElementById(`status-${service}`);
-            const acaoDesejada = currentServiceStatus[service] ? 'off' : 'on';
-            
+            label.innerText = "PROCESSANDO...";
             try {
-                statusLabel.innerText = "PROCESSANDO...";
-                statusLabel.className = "px-3 py-1 bg-yellow-100 text-yellow-700 text-xs font-bold rounded-full";
-
-                // Envia exatamente o que seu nó "Update a workflow" espera
-                const response = await fetch(WEBHOOK_TOGGLE, {
+                const res = await fetch(`${BASE_URL}/LigarDesligarAutoma`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        workflowId: workflowIds[service],
-                        acao: acaoDesejada
-                    })
+                    body: JSON.stringify({ workflowId: workflowIds[service], acao: acao })
                 });
 
-                if (response.ok) {
+                if (res.ok) {
                     currentServiceStatus[service] = !currentServiceStatus[service];
-                    updateStatusUI(service);
-                } else {
-                    throw new Error();
+                    label.innerText = currentServiceStatus[service] ? "ATIVO" : "INATIVO";
+                    label.className = currentServiceStatus[service] 
+                        ? "px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full" 
+                        : "px-3 py-1 bg-red-100 text-red-700 text-xs font-bold rounded-full";
                 }
-            } catch (error) {
-                alert("Erro ao conectar com n8n");
-                updateStatusUI(service);
+            } catch (e) {
+                alert("Erro ao comunicar com o servidor");
+                label.innerText = "ERRO";
             }
         }
 
-        function updateStatusUI(service) {
-            const statusLabel = document.getElementById(`status-${service}`);
-            if (currentServiceStatus[service]) {
-                statusLabel.innerText = "ATIVO";
-                statusLabel.className = "px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full";
-            } else {
-                statusLabel.innerText = "INATIVO";
-                statusLabel.className = "px-3 py-1 bg-red-100 text-red-700 text-xs font-bold rounded-full";
+        async function generateQRCode() {
+            const name = document.getElementById('instance-name').value;
+            if(!name) return alert("Por favor, digite o nome da instância.");
+
+            const container = document.getElementById('qr-container');
+            const img = document.getElementById('qr-code-img');
+            const placeholder = document.getElementById('qr-placeholder');
+            const status = document.getElementById('qr-status');
+
+            container.classList.remove('hidden');
+            img.classList.add('hidden');
+            placeholder.classList.remove('hidden');
+            status.innerText = "Conectando à Evolution API...";
+
+            try {
+                const res = await fetch(`${BASE_URL}/evolucionAPI`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ instanceName: name })
+                });
+                const data = await res.json();
+                
+                // Pega o código base64 vindo do nó 'Connect' da Evolution
+                const code = data.base64 || data.qrcode || data.code;
+
+                if(code) {
+                    img.src = code.startsWith('data:') ? code : `data:image/png;base64,${code}`;
+                    img.classList.remove('hidden');
+                    placeholder.classList.add('hidden');
+                    status.innerText = "Status: Escaneie para conectar";
+                    status.className = "mt-6 text-sm font-semibold text-blue-600";
+                } else {
+                    status.innerText = "Instância já conectada ou não encontrada.";
+                }
+            } catch (e) {
+                status.innerText = "Erro ao buscar QR Code.";
+                status.className = "mt-6 text-sm font-semibold text-red-500";
             }
         }
 
-        // Funções de suporte (QR Code, Relatórios, etc) mantidas para o site funcionar
-        async function generateQRCode() { /* ... lógica mantida ... */ }
-        async function loadReports() { /* ... lógica mantida ... */ }
-        function openReport(report) { /* ... */ }
+        async function loadReports() {
+            const list = document.getElementById('reports-list');
+            list.innerHTML = '<tr><td colspan="3" class="px-6 py-8 text-center text-slate-400">Carregando dados...</td></tr>';
+            
+            try {
+                const res = await fetch(`${BASE_URL}/get-reports`);
+                const reports = await res.json();
+                list.innerHTML = '';
+                
+                reports.forEach(r => {
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-slate-50 transition-colors";
+                    tr.innerHTML = `
+                        <td class="px-6 py-4 text-sm text-slate-500 font-medium">${r.data}</td>
+                        <td class="px-6 py-4 text-sm text-slate-800 font-bold">${r.titulo}</td>
+                        <td class="px-6 py-4 text-right">
+                            <button onclick='openReport(${JSON.stringify(r)})' class="text-blue-600 hover:text-blue-800 text-sm font-bold">Ver Relatório</button>
+                        </td>
+                    `;
+                    list.appendChild(tr);
+                });
+                document.getElementById('stat-meetings').innerText = reports.length;
+                document.getElementById('stat-audios').innerText = reports.length * 2; // Simulação
+            } catch (e) {
+                list.innerHTML = '<tr><td colspan="3" class="px-6 py-8 text-center text-red-400">Erro ao carregar relatórios.</td></tr>';
+            }
+        }
+
+        function openReport(r) {
+            document.getElementById('modal-title').innerText = r.titulo;
+            document.getElementById('modal-summary').innerText = r.resumo;
+            document.getElementById('modal-content').innerText = r.transcricao;
+            document.getElementById('report-modal').classList.remove('hidden');
+        }
+
         function closeModal() { document.getElementById('report-modal').classList.add('hidden'); }
         function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
-        document.addEventListener('DOMContentLoaded', () => loadReports());
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            loadReports();
+        });
     </script>
 </body>
 </html>
