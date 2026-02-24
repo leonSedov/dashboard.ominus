@@ -264,8 +264,8 @@
     <!-- LÓGICA JAVASCRIPT -->
     <script>
         // --- CONFIGURAÇÕES DE WEBHOOKS N8N ---
-        const WEBHOOK_TOGGLE = "https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook/LigarDesligarAutoma";
-        const WEBHOOK_GET_REPORTS = "https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook/get-reports"; 
+        const WEBHOOK_TOGGLE = "https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook/dashboard";
+        const WEBHOOK_GET_REPORTS = "https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook/dashboard"; 
         const WEBHOOK_QR_CODE = "https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook/generate-qr";
 
         // --- ESTADO DA APLICAÇÃO ---
@@ -320,7 +320,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         servico: service,
-                        acao: currentServiceStatus[service] ? 'desligar' : 'ligar',
+                        acao: currentServiceStatus[service] ? 'false' : 'true',
                         timestamp: new Date().toISOString()
                     })
                 });
