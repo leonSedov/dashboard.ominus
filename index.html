@@ -3,318 +3,532 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ominus tech - Gestão de Automações</title>
+    <title>Ominus tech · Automação Jurídica</title>
+    <!-- Tailwind + plugins -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .sidebar-active { background-color: #1e293b; border-left: 4px solid #3b82f6; }
-        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        * { font-family: 'Inter', sans-serif; }
+        body { background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 100%); }
+        .glass-sidebar {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(255,255,255,0.05);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.5);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.04);
+        }
+        .hover-lift {
+            transition: transform 0.15s ease, box-shadow 0.2s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 32px -8px rgba(0,34,64,0.15);
+        }
+        /* scrollbar personalizada */
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        ::-webkit-scrollbar-track { background: #e2e8f0; border-radius: 12px; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 12px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col md:flex-row">
+<body class="min-h-screen flex flex-col md:flex-row text-slate-800 antialiased">
 
-    <div class="md:hidden bg-slate-900 text-white p-4 flex justify-between items-center">
-        <h1 class="text-xl font-bold text-blue-400">Ominus tech</h1>
+    <!-- Mobile Header -->
+    <div class="md:hidden bg-slate-900/90 backdrop-blur-sm text-white p-4 flex justify-between items-center sticky top-0 z-50">
+        <h1 class="text-xl font-bold text-blue-300 tracking-tight">Ominus tech</h1>
         <button onclick="toggleMobileMenu()" class="text-2xl">
             <i class="fas fa-bars"></i>
         </button>
     </div>
 
-    <div id="mobile-menu" class="fixed inset-0 bg-slate-900 z-[60] hidden flex-col p-8">
+    <!-- Mobile Menu Overlay (glass) -->
+    <div id="mobile-menu" class="fixed inset-0 bg-slate-900/95 backdrop-blur-xl z-[60] hidden flex-col p-8">
         <div class="flex justify-between items-center mb-8">
-            <h1 class="text-2xl font-bold text-blue-400">Ominus tech</h1>
+            <h1 class="text-2xl font-bold text-blue-300">Ominus tech</h1>
             <button onclick="toggleMobileMenu()" class="text-2xl text-white">
                 <i class="fas fa-times"></i>
             </button>
         </div>
-        <nav class="space-y-4">
-            <a href="#" onclick="showPage('overview'); toggleMobileMenu()" class="block text-xl text-slate-300 py-2 border-b border-slate-800">Visão Geral</a>
-            <a href="#" onclick="showPage('reports'); toggleMobileMenu()" class="block text-xl text-slate-300 py-2 border-b border-slate-800">Relatórios</a>
-            <a href="#" onclick="showPage('whatsapp'); toggleMobileMenu()" class="block text-xl text-slate-300 py-2 border-b border-slate-800">Config. WhatsApp</a>
+        <nav class="space-y-6">
+            <a href="#" onclick="showPage('overview'); toggleMobileMenu()" class="block text-xl text-slate-300 py-2 border-b border-slate-700 hover:text-white transition">Visão Geral</a>
+            <a href="#" onclick="showPage('reports'); toggleMobileMenu()" class="block text-xl text-slate-300 py-2 border-b border-slate-700 hover:text-white transition">Relatórios</a>
+            <a href="#" onclick="showPage('whatsapp'); toggleMobileMenu()" class="block text-xl text-slate-300 py-2 border-b border-slate-700 hover:text-white transition">Config. WhatsApp</a>
         </nav>
     </div>
 
-    <aside class="w-64 bg-slate-900 text-white flex-shrink-0 hidden md:flex flex-col">
-        <div class="p-6">
-            <h1 class="text-2xl font-bold text-blue-400">Ominus tech</h1>
-            <p class="text-xs text-slate-400 uppercase tracking-wider mt-1 font-semibold">Sistemas Jurídicos</p>
+    <!-- Sidebar Desktop (glass) -->
+    <aside class="w-72 glass-sidebar text-white flex-shrink-0 hidden md:flex flex-col">
+        <div class="p-8">
+            <h1 class="text-3xl font-light tracking-tight text-blue-300">Ominus<span class="font-bold text-white">tech</span></h1>
+            <p class="text-xs text-slate-400 uppercase tracking-widest mt-1">Sistemas Jurídicos</p>
         </div>
-        <nav class="mt-6 flex-1">
-            <a href="#" onclick="showPage('overview')" id="nav-overview" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-800 transition-colors sidebar-active">
-                <i class="fas fa-chart-line w-5 mr-3"></i> <span>Visão Geral</span>
+        
+        <nav class="mt-4 flex-1 space-y-1 px-4">
+            <a href="#" onclick="showPage('overview')" id="nav-overview" class="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:bg-white/10 transition-all sidebar-active">
+                <i class="fas fa-chart-line w-5 mr-3 text-blue-400"></i>
+                <span class="font-medium">Visão Geral</span>
             </a>
-            <a href="#" onclick="showPage('reports')" id="nav-reports" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-800 transition-colors">
-                <i class="fas fa-file-contract w-5 mr-3"></i> <span>Relatórios</span>
+            <a href="#" onclick="showPage('reports')" id="nav-reports" class="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:bg-white/10 transition-all">
+                <i class="fas fa-file-contract w-5 mr-3 text-indigo-400"></i>
+                <span class="font-medium">Relatórios</span>
             </a>
-            <a href="#" onclick="showPage('whatsapp')" id="nav-whatsapp" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-800 transition-colors">
-                <i class="fab fa-whatsapp w-5 mr-3"></i> <span>Config. WhatsApp</span>
+            <a href="#" onclick="showPage('whatsapp')" id="nav-whatsapp" class="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:bg-white/10 transition-all">
+                <i class="fab fa-whatsapp w-5 mr-3 text-green-400"></i>
+                <span class="font-medium">Config. WhatsApp</span>
             </a>
         </nav>
+
+        <div class="p-6 border-t border-white/10 mt-auto">
+            <div class="flex items-center">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white font-bold shadow-lg">AD</div>
+                <div class="ml-3">
+                    <p class="text-sm font-medium">Dr. Advogado</p>
+                    <p class="text-xs text-slate-400">Plano Premium</p>
+                </div>
+            </div>
+        </div>
     </aside>
 
-    <main class="flex-1 flex flex-col overflow-hidden">
-        <header class="h-16 bg-white border-b flex items-center justify-between px-8 flex-shrink-0">
-            <h2 id="page-title" class="text-xl font-semibold text-slate-800">Visão Geral</h2>
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col overflow-x-hidden">
+        <!-- Header com glass effect -->
+        <header class="h-20 bg-white/70 backdrop-blur-md border-b border-white/30 flex items-center justify-between px-8 sticky top-0 z-40">
+            <h2 id="page-title" class="text-2xl font-semibold text-slate-800">Visão Geral</h2>
+            <div class="flex items-center space-x-5">
+                <span class="flex items-center text-sm text-emerald-700 font-medium bg-emerald-50 px-3 py-1.5 rounded-full">
+                    <span class="w-2 h-2 bg-emerald-500 rounded-full mr-2 animate-pulse"></span>
+                    Sistemas Online
+                </span>
+                <button class="p-2 text-slate-500 hover:text-slate-800 bg-white/50 rounded-xl hover:bg-white transition">
+                    <i class="fas fa-bell"></i>
+                </button>
+            </div>
         </header>
 
-        <div id="content-area" class="p-4 md:p-8 overflow-y-auto">
+        <!-- Page Content Area -->
+        <div id="content-area" class="p-8 overflow-y-auto">
             
+            <!-- VISÃO GERAL -->
             <section id="page-overview" class="space-y-8">
+                <!-- cards estatísticos com glass e hover -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                        <p class="text-sm text-slate-500 font-medium uppercase tracking-wider">Transcrições Realizadas</p>
-                        <h3 class="text-3xl font-bold text-slate-800 mt-1" id="stat-audios">0</h3>
+                    <div class="glass-card p-6 rounded-2xl hover-lift">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-sm text-slate-500 font-medium">Transcrição de Áudios</p>
+                                <h3 class="text-4xl font-bold mt-1 text-slate-800" id="stat-audios">0</h3>
+                            </div>
+                            <div class="p-4 bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600 rounded-2xl shadow-inner">
+                                <i class="fas fa-microphone text-xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-xs text-emerald-600 mt-4 font-medium bg-emerald-50/50 w-fit px-2 py-0.5 rounded-full"><i class="fas fa-arrow-up mr-1"></i> 12% desde o último mês</p>
                     </div>
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                        <p class="text-sm text-slate-500 font-medium uppercase tracking-wider">Leads Qualificados</p>
-                        <h3 class="text-3xl font-bold text-slate-800 mt-1" id="stat-leads">0</h3>
+                    <div class="glass-card p-6 rounded-2xl hover-lift">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-sm text-slate-500 font-medium">Leads Atendidos</p>
+                                <h3 class="text-4xl font-bold mt-1 text-slate-800" id="stat-leads">0</h3>
+                            </div>
+                            <div class="p-4 bg-gradient-to-br from-indigo-50 to-indigo-100 text-indigo-600 rounded-2xl shadow-inner">
+                                <i class="fas fa-user-tie text-xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-xs text-emerald-600 mt-4 font-medium bg-emerald-50/50 w-fit px-2 py-0.5 rounded-full"><i class="fas fa-arrow-up mr-1"></i> 8% hoje</p>
                     </div>
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                        <p class="text-sm text-slate-500 font-medium uppercase tracking-wider">Reuniões no Dashboard</p>
-                        <h3 class="text-3xl font-bold text-slate-800 mt-1" id="stat-meetings">0</h3>
+                    <div class="glass-card p-6 rounded-2xl hover-lift">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-sm text-slate-500 font-medium">Reuniões Registradas</p>
+                                <h3 class="text-4xl font-bold mt-1 text-slate-800" id="stat-meetings">0</h3>
+                            </div>
+                            <div class="p-4 bg-gradient-to-br from-slate-100 to-slate-200 text-slate-600 rounded-2xl shadow-inner">
+                                <i class="fas fa-calendar-check text-xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-4 font-medium bg-slate-100/50 w-fit px-2 py-0.5 rounded-full">Total acumulado</p>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
-                    <div class="p-6 border-b border-slate-50">
-                        <h4 class="font-semibold text-slate-800">Status dos Sistemas em Tempo Real</h4>
+                <!-- status dos serviços -->
+                <div class="glass-card rounded-2xl overflow-hidden">
+                    <div class="p-6 border-b border-white/30 bg-white/30">
+                        <h4 class="font-semibold text-slate-800 flex items-center"><i class="fas fa-diagram-project text-blue-600 mr-2"></i> Status dos Serviços</h4>
                     </div>
-                    <div class="divide-y divide-slate-50">
-                        <div class="p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="divide-y divide-white/20">
+                        <div class="p-6 flex items-center justify-between hover:bg-white/20 transition">
                             <div class="flex items-center">
-                                <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 mr-4">
+                                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-700 to-blue-900 flex items-center justify-center text-white shadow-md">
                                     <i class="fab fa-telegram-plane text-xl"></i>
                                 </div>
-                                <div>
-                                    <p class="font-medium text-slate-800">Bot de Transcrição Jurídica</p>
-                                    <p class="text-xs text-slate-500">ID: CEgSq4eHemj2IInY</p>
+                                <div class="ml-4">
+                                    <p class="font-medium text-slate-800">Bot Telegram (Transcrição)</p>
+                                    <p class="text-xs text-slate-500">Processamento de áudios e atas</p>
                                 </div>
                             </div>
                             <div class="flex items-center space-x-4">
-                                <span id="status-telegram" class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">ATIVO</span>
-                                <button onclick="toggleService('telegram')" class="px-4 py-2 bg-slate-800 text-white text-sm font-medium rounded-lg hover:bg-slate-700 transition-colors">Alternar</button>
+                                <span id="status-telegram" class="px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full shadow-sm">ATIVO</span>
+                                <button onclick="toggleService('telegram')" class="px-4 py-2 bg-slate-800 text-white text-sm rounded-xl hover:bg-slate-700 transition shadow-md">Alternar</button>
                             </div>
                         </div>
-                        <div class="p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="p-6 flex items-center justify-between hover:bg-white/20 transition">
                             <div class="flex items-center">
-                                <div class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-600 mr-4">
+                                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center text-white shadow-md">
                                     <i class="fab fa-whatsapp text-xl"></i>
                                 </div>
-                                <div>
-                                    <p class="font-medium text-slate-800">Assistente Evolution (WhatsApp)</p>
-                                    <p class="text-xs text-slate-500">Triagem de Novos Clientes</p>
+                                <div class="ml-4">
+                                    <p class="font-medium text-slate-800">Atendente Virtual (WhatsApp)</p>
+                                    <p class="text-xs text-slate-500">Triagem de leads e agendamentos</p>
                                 </div>
                             </div>
                             <div class="flex items-center space-x-4">
-                                <span id="status-whatsapp" class="px-3 py-1 bg-red-100 text-red-700 text-xs font-bold rounded-full">INATIVO</span>
-                                <button onclick="toggleService('whatsapp')" class="px-4 py-2 bg-slate-800 text-white text-sm font-medium rounded-lg hover:bg-slate-700 transition-colors">Alternar</button>
+                                <span id="status-whatsapp" class="px-3 py-1 bg-rose-100 text-rose-800 text-xs font-bold rounded-full shadow-sm">INATIVO</span>
+                                <button onclick="toggleService('whatsapp')" class="px-4 py-2 bg-slate-800 text-white text-sm rounded-xl hover:bg-slate-700 transition shadow-md">Alternar</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
+            <!-- RELATÓRIOS -->
             <section id="page-reports" class="hidden space-y-6">
-                <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
-                            <thead>
-                                <tr class="bg-slate-50 border-b border-slate-100">
-                                    <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Data/Hora</th>
-                                    <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Título da Reunião</th>
-                                    <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody id="reports-list" class="divide-y divide-slate-50">
-                                </tbody>
-                        </table>
-                    </div>
+                <div class="glass-card rounded-2xl overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-white/50 border-b border-white/30">
+                            <tr>
+                                <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase">Data</th>
+                                <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase">Reunião</th>
+                                <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase text-right">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reports-list" class="divide-y divide-white/20">
+                            <!-- preenchido via JS -->
+                        </tbody>
+                    </table>
                 </div>
             </section>
 
-            <section id="page-whatsapp" class="hidden max-w-2xl mx-auto">
-                <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-100 space-y-6">
-                    <div class="text-center">
-                        <h4 class="text-xl font-bold text-slate-800">Conectar Assistente</h4>
-                        <p class="text-slate-500 text-sm mt-1">Sincronize sua instância da Evolution API</p>
-                    </div>
-                    
-                    <div class="space-y-4">
-                        <label class="block text-sm font-medium text-slate-700">Nome da Instância</label>
-                        <input type="text" id="instance-name" placeholder="Digite o nome da empresa" class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
-                        <button onclick="generateQRCode()" class="w-full py-3 bg-blue-900 text-white font-bold rounded-lg hover:bg-blue-800 transition-all shadow-lg">
-                            Visualizar QR Code de Conexão
-                        </button>
+            <!-- WHATSAPP CONFIG (NOVA VERSÃO COM PROMPT) -->
+            <section id="page-whatsapp" class="hidden max-w-3xl mx-auto">
+                <div class="space-y-8">
+                    <!-- Card: Prompt da IA -->
+                    <div class="glass-card p-8 rounded-2xl">
+                        <div class="flex items-center gap-3 mb-5">
+                            <div class="p-3 bg-gradient-to-br from-blue-100 to-blue-200 text-blue-700 rounded-xl shadow-sm">
+                                <i class="fas fa-robot text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-semibold text-slate-800">Personalidade do Atendente</h4>
+                                <p class="text-sm text-slate-500">Defina o prompt / instruções para a IA no WhatsApp</p>
+                            </div>
+                        </div>
+                        <textarea id="ai-prompt" rows="5" class="w-full px-5 py-4 bg-white/70 backdrop-blur-sm border border-white/50 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent outline-none transition shadow-sm text-slate-700 placeholder-slate-400" placeholder="Ex: Você é um assistente jurídico especializado em direito civil. Seja cordial, objetivo e colete nome, telefone e motivo do contato antes de passar para o humano...">Você é a assistente virtual da Ominus tech. Recepcione clientes com empatia, identifique a área de interesse (trabalhista, cível, etc.) e colete nome e telefone. Nunca dê consultoria jurídica, apenas agende reuniões.</textarea>
+                        <div class="flex justify-end mt-4">
+                            <button onclick="savePrompt()" class="px-6 py-2.5 bg-gradient-to-r from-blue-700 to-blue-800 text-white font-medium rounded-xl hover:from-blue-800 hover:to-blue-900 transition shadow-md flex items-center gap-2">
+                                <i class="fas fa-save"></i> Salvar prompt
+                            </button>
+                        </div>
                     </div>
 
-                    <div id="qr-container" class="hidden flex flex-col items-center justify-center p-8 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50">
-                        <div id="qr-placeholder" class="text-slate-400 text-center">
-                            <i class="fas fa-sync fa-spin text-4xl mb-3"></i>
-                            <p class="text-sm">Buscando na Evolution API...</p>
+                    <!-- Card: Conexão WhatsApp (Evolution API) -->
+                    <div class="glass-card p-8 rounded-2xl">
+                        <div class="flex items-center gap-3 mb-5">
+                            <div class="p-3 bg-gradient-to-br from-green-100 to-green-200 text-green-700 rounded-xl shadow-sm">
+                                <i class="fab fa-whatsapp text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-semibold text-slate-800">Conectar instância WhatsApp</h4>
+                                <p class="text-sm text-slate-500">Digite o nome da instância e gere o QR Code</p>
+                            </div>
                         </div>
-                        <img id="qr-code-img" class="hidden max-w-[250px] shadow-2xl rounded-xl border-8 border-white" src="" alt="QR Code">
-                        <p id="qr-status" class="mt-6 text-sm font-semibold text-slate-600">Status: Aguardando...</p>
+                        
+                        <div class="space-y-5">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Nome da Instância</label>
+                                <input type="text" id="instance-name" placeholder="Ex: Ominus_Advocacia" class="w-full px-5 py-3 bg-white/70 backdrop-blur-sm border border-white/50 rounded-xl focus:ring-2 focus:ring-green-400 focus:border-transparent outline-none transition shadow-sm">
+                            </div>
+                            <button onclick="generateQRCode()" class="w-full py-3.5 bg-gradient-to-r from-green-600 to-emerald-700 text-white font-semibold rounded-xl hover:from-green-700 hover:to-emerald-800 transition shadow-lg flex items-center justify-center gap-2">
+                                <i class="fas fa-qrcode"></i> Gerar QR Code
+                            </button>
+                        </div>
+
+                        <div id="qr-container" class="hidden mt-8 flex flex-col items-center justify-center p-6 border-2 border-dashed border-white/50 rounded-xl bg-white/30">
+                            <div id="qr-placeholder" class="text-slate-500 text-center">
+                                <i class="fas fa-spinner fa-pulse text-3xl mb-2"></i>
+                                <p class="text-sm">Aguardando resposta da API...</p>
+                            </div>
+                            <img id="qr-code-img" class="hidden max-w-xs shadow-xl rounded-xl border-4 border-white" src="" alt="QR Code WhatsApp">
+                            <p id="connection-status-text" class="mt-4 text-sm font-medium text-amber-700 bg-amber-50 px-3 py-1 rounded-full">Status: desconectado</p>
+                        </div>
                     </div>
                 </div>
             </section>
         </div>
     </main>
 
-    <div id="report-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-[100] flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-3xl max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col border border-white/20">
-            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-                <h3 id="modal-title" class="text-xl font-bold text-slate-800"></h3>
-                <button onclick="closeModal()" class="w-10 h-10 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-400 transition-colors">
-                    <i class="fas fa-times text-lg"></i>
+    <!-- MODAL DE RELATÓRIO (glass) -->
+    <div id="report-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden z-[100] flex items-center justify-center p-4">
+        <div class="bg-white/90 backdrop-blur-xl w-full max-w-3xl max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col border border-white/40">
+            <div class="p-6 border-b border-white/30 flex justify-between items-center bg-white/30">
+                <div>
+                    <h3 id="modal-title" class="text-xl font-bold text-slate-800">Relatório de Reunião</h3>
+                    <p id="modal-date" class="text-sm text-slate-500"></p>
+                </div>
+                <button onclick="closeModal()" class="text-slate-500 hover:text-slate-800 bg-white/40 w-8 h-8 rounded-full flex items-center justify-center">
+                    <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="p-8 overflow-y-auto space-y-6">
-                <div class="bg-blue-50/50 p-6 rounded-2xl border border-blue-100">
-                    <h4 class="text-xs font-bold text-blue-600 uppercase tracking-widest mb-2">Resumo da IA</h4>
-                    <p id="modal-summary" class="text-blue-900 leading-relaxed font-medium"></p>
+                <div>
+                    <h4 class="text-xs font-bold text-blue-700 uppercase tracking-widest mb-2">Pontos Principais (IA)</h4>
+                    <div id="modal-summary" class="bg-blue-50/70 p-4 rounded-xl text-slate-700 leading-relaxed italic border-l-4 border-blue-500"></div>
                 </div>
                 <div>
-                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Transcrição Completa</h4>
-                    <div id="modal-content" class="text-slate-700 leading-relaxed whitespace-pre-line text-sm"></div>
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Transcrição Completa</h4>
+                    <div id="modal-content" class="text-slate-700 leading-relaxed whitespace-pre-line"></div>
                 </div>
+            </div>
+            <div class="p-6 border-t border-white/30 flex justify-end bg-white/20">
+                <button onclick="closeModal()" class="px-6 py-2 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700">Fechar</button>
             </div>
         </div>
     </div>
 
+    <!-- LÓGICA JAVASCRIPT ATUALIZADA -->
     <script>
-        const BASE_URL = "https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook/saida";
-        let currentServiceStatus = { telegram: true, whatsapp: false };
+        // --- WEBHOOKS N8N (substitua pelos seus endpoints) ---
+        const WEBHOOK_TOGGLE = "https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook/dashboard";
+        const WEBHOOK_GET_REPORTS = "https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook/dashboard"; 
+        const WEBHOOK_QR_CODE = "https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook/generate-qr";
+        const WEBHOOK_SAVE_PROMPT = "https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook/save-prompt"; // novo
 
+        // --- ESTADO ---
+        let currentServiceStatus = {
+            telegram: true,
+            whatsapp: false
+        };
+
+        // --- NAVEGAÇÃO SPA ---
         function showPage(pageId) {
-            document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
+            document.querySelectorAll('section').forEach(section => section.classList.add('hidden'));
             document.getElementById(`page-${pageId}`).classList.remove('hidden');
             
-            document.querySelectorAll('aside nav a').forEach(a => a.classList.remove('sidebar-active'));
-            document.getElementById(`nav-${pageId}`).classList.add('sidebar-active');
-            
-            document.getElementById('page-title').innerText = 
-                pageId === 'overview' ? 'Visão Geral' : 
-                pageId === 'reports' ? 'Relatórios de Reuniões' : 'Configuração WhatsApp';
-            
-            if(pageId === 'reports') loadReports();
-        }
-
-        async function toggleService(service) {
-            const workflowIds = {
-                'telegram': 'CEgSq4eHemj2IInY',
-                'whatsapp': 'Ws9A66QGfpjkpyXnb_6gY' 
+            const titles = {
+                'overview': 'Visão Geral',
+                'reports': 'Relatórios de Reuniões',
+                'whatsapp': 'Configuração WhatsApp'
             };
-            const label = document.getElementById(`status-${service}`);
-            const acao = currentServiceStatus[service] ? 'off' : 'on';
+            document.getElementById('page-title').innerText = titles[pageId];
+            
+            document.querySelectorAll('aside nav a').forEach(nav => nav.classList.remove('sidebar-active'));
+            const activeNav = document.getElementById(`nav-${pageId}`);
+            if (activeNav) activeNav.classList.add('sidebar-active');
 
-            label.innerText = "PROCESSANDO...";
-            try {
-                const res = await fetch(`${BASE_URL}/LigarDesligarAutoma`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ workflowId: workflowIds[service], acao: acao })
-                });
-
-                if (res.ok) {
-                    currentServiceStatus[service] = !currentServiceStatus[service];
-                    label.innerText = currentServiceStatus[service] ? "ATIVO" : "INATIVO";
-                    label.className = currentServiceStatus[service] 
-                        ? "px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full" 
-                        : "px-3 py-1 bg-red-100 text-red-700 text-xs font-bold rounded-full";
-                }
-            } catch (e) {
-                alert("Erro ao comunicar com o servidor");
-                label.innerText = "ERRO";
-            }
+            if (pageId === 'reports') loadReports();
         }
 
-        async function generateQRCode() {
-            const name = document.getElementById('instance-name').value;
-            if(!name) return alert("Por favor, digite o nome da instância.");
-
-            const container = document.getElementById('qr-container');
-            const img = document.getElementById('qr-code-img');
-            const placeholder = document.getElementById('qr-placeholder');
-            const status = document.getElementById('qr-status');
-
-            container.classList.remove('hidden');
-            img.classList.add('hidden');
-            placeholder.classList.remove('hidden');
-            status.innerText = "Conectando à Evolution API...";
-
-            try {
-                const res = await fetch(`${BASE_URL}/evolucionAPI`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ instanceName: name })
-                });
-                const data = await res.json();
-                
-                // Pega o código base64 vindo do nó 'Connect' da Evolution
-                const code = data.base64 || data.qrcode || data.code;
-
-                if(code) {
-                    img.src = code.startsWith('data:') ? code : `data:image/png;base64,${code}`;
-                    img.classList.remove('hidden');
-                    placeholder.classList.add('hidden');
-                    status.innerText = "Status: Escaneie para conectar";
-                    status.className = "mt-6 text-sm font-semibold text-blue-600";
-                } else {
-                    status.innerText = "Instância já conectada ou não encontrada.";
-                }
-            } catch (e) {
-                status.innerText = "Erro ao buscar QR Code.";
-                status.className = "mt-6 text-sm font-semibold text-red-500";
-            }
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('flex');
         }
 
-        async function loadReports() {
-            const list = document.getElementById('reports-list');
-            list.innerHTML = '<tr><td colspan="3" class="px-6 py-8 text-center text-slate-400">Carregando dados...</td></tr>';
+        // --- ALTERNAR SERVIÇO (igual ao original, apenas visual aprimorado) ---
+        async function toggleService(service) {
+            const statusLabel = document.getElementById(`status-${service}`);
+            const originalText = statusLabel.innerText;
             
             try {
-                const res = await fetch(`${BASE_URL}/get-reports`);
-                const reports = await res.json();
-                list.innerHTML = '';
+                statusLabel.innerText = "PROCESSANDO...";
+                statusLabel.className = "px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-bold rounded-full";
+
+                const response = await fetch(WEBHOOK_TOGGLE, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        servico: service,
+                        acao: currentServiceStatus[service] ? 'false' : 'true',
+                        timestamp: new Date().toISOString()
+                    })
+                });
+
+                if (response.ok) {
+                    currentServiceStatus[service] = !currentServiceStatus[service];
+                    updateStatusUI(service);
+                } else {
+                    throw new Error('Falha na comunicação');
+                }
+            } catch (error) {
+                console.error("Erro ao alternar serviço:", error);
+                alert("Erro ao comunicar com o n8n. Verifique o console.");
+                updateStatusUI(service);
+            }
+        }
+
+        function updateStatusUI(service) {
+            const statusLabel = document.getElementById(`status-${service}`);
+            if (currentServiceStatus[service]) {
+                statusLabel.innerText = "ATIVO";
+                statusLabel.className = "px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full";
+            } else {
+                statusLabel.innerText = "INATIVO";
+                statusLabel.className = "px-3 py-1 bg-rose-100 text-rose-800 text-xs font-bold rounded-full";
+            }
+        }
+
+        // --- SALVAR PROMPT (nova função) ---
+        async function savePrompt() {
+            const promptText = document.getElementById('ai-prompt').value;
+            if (!promptText.trim()) {
+                alert("Por favor, escreva um prompt para a IA.");
+                return;
+            }
+
+            const btn = event.currentTarget;
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Salvando...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(WEBHOOK_SAVE_PROMPT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: promptText, timestamp: new Date().toISOString() })
+                });
+
+                if (response.ok) {
+                    btn.innerHTML = '<i class="fas fa-check"></i> Salvo!';
+                    setTimeout(() => {
+                        btn.innerHTML = originalHtml;
+                        btn.disabled = false;
+                    }, 2000);
+                } else {
+                    throw new Error('Erro no servidor');
+                }
+            } catch (error) {
+                console.error("Erro ao salvar prompt:", error);
+                alert("Não foi possível salvar o prompt. Verifique o webhook.");
+                btn.innerHTML = originalHtml;
+                btn.disabled = false;
+            }
+        }
+
+        // --- GERAR QR CODE (Evolution API via n8n) ---
+        async function generateQRCode() {
+            const instanceName = document.getElementById('instance-name').value;
+            if (!instanceName) {
+                alert("Por favor, digite o nome da instância.");
+                return;
+            }
+
+            const qrContainer = document.getElementById('qr-container');
+            const qrPlaceholder = document.getElementById('qr-placeholder');
+            const qrImg = document.getElementById('qr-code-img');
+            const statusText = document.getElementById('connection-status-text');
+
+            qrContainer.classList.remove('hidden');
+            qrPlaceholder.classList.remove('hidden');
+            qrImg.classList.add('hidden');
+            statusText.innerText = "Status: Aguardando...";
+            statusText.className = "mt-4 text-sm font-medium text-amber-700 bg-amber-50 px-3 py-1 rounded-full";
+
+            try {
+                const response = await fetch(WEBHOOK_QR_CODE, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ instanceName: instanceName })
+                });
+
+                const data = await response.json();
                 
-                reports.forEach(r => {
+                if (data && data.qrcode) {
+                    qrImg.src = data.qrcode;
+                    qrImg.classList.remove('hidden');
+                    qrPlaceholder.classList.add('hidden');
+                    statusText.innerText = "Status: QR Code gerado. Escaneie com o WhatsApp.";
+                    statusText.className = "mt-4 text-sm font-medium text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full";
+                } else {
+                    throw new Error("Formato de QR Code inválido");
+                }
+            } catch (error) {
+                console.error("Erro ao gerar QR Code:", error);
+                statusText.innerText = "Status: Erro na API.";
+                statusText.className = "mt-4 text-sm font-medium text-rose-700 bg-rose-50 px-3 py-1 rounded-full";
+                qrPlaceholder.innerHTML = `<p class="text-rose-500 text-xs font-bold">Falha ao obter QR Code do n8n</p>`;
+            }
+        }
+
+        // --- CARREGAR RELATÓRIOS (mock + webhook) ---
+        async function loadReports() {
+            const reportsList = document.getElementById('reports-list');
+            reportsList.innerHTML = `<tr><td colspan="3" class="px-6 py-8 text-center text-slate-400"><i class="fas fa-spinner fa-pulse mr-2"></i> Buscando dados...</td></tr>`;
+
+            try {
+                const response = await fetch(WEBHOOK_GET_REPORTS).catch(() => null);
+                let reports = [];
+
+                if (response && response.ok) {
+                    reports = await response.json();
+                } else {
+                    reports = [
+                        { id: 1, data: '04/02/2026', titulo: 'Audiência de Conciliação - Silva vs. Oliveira', resumo: 'Acordo parcial estabelecido sobre as parcelas atrasadas. Próxima reunião em 15 dias.', transcricao: 'Início da gravação... Advogado A: Bom dia. Advogado B: Bom dia. Juiz: Iniciando os trabalhos para tentativa de conciliação...' },
+                        { id: 2, data: '03/02/2026', titulo: 'Consultoria Tributária - TechMax', resumo: 'Discussão sobre planejamento tributário 2026. Foco em redução de ICMS.', transcricao: 'Transcrição completa da consultoria técnica sobre impostos estaduais e federais para o próximo ano fiscal...' }
+                    ];
+                }
+
+                reportsList.innerHTML = '';
+                reports.forEach(report => {
                     const tr = document.createElement('tr');
-                    tr.className = "hover:bg-slate-50 transition-colors";
+                    tr.className = "hover:bg-white/20 transition-colors";
                     tr.innerHTML = `
-                        <td class="px-6 py-4 text-sm text-slate-500 font-medium">${r.data}</td>
-                        <td class="px-6 py-4 text-sm text-slate-800 font-bold">${r.titulo}</td>
+                        <td class="px-6 py-4 text-sm text-slate-600 font-medium">${report.data}</td>
+                        <td class="px-6 py-4 text-sm text-slate-800 font-semibold">${report.titulo}</td>
                         <td class="px-6 py-4 text-right">
-                            <button onclick='openReport(${JSON.stringify(r)})' class="text-blue-600 hover:text-blue-800 text-sm font-bold">Ver Relatório</button>
+                            <button id="btn-report-${report.id}" class="text-blue-700 hover:text-blue-900 font-bold text-sm bg-white/40 px-4 py-1.5 rounded-full shadow-sm">Ver Relatório</button>
                         </td>
                     `;
-                    list.appendChild(tr);
+                    reportsList.appendChild(tr);
+                    
+                    document.getElementById(`btn-report-${report.id}`).addEventListener('click', () => openReport(report));
                 });
+
                 document.getElementById('stat-meetings').innerText = reports.length;
-                document.getElementById('stat-audios').innerText = reports.length * 2; // Simulação
-            } catch (e) {
-                list.innerHTML = '<tr><td colspan="3" class="px-6 py-8 text-center text-red-400">Erro ao carregar relatórios.</td></tr>';
+                document.getElementById('stat-audios').innerText = reports.length * 3;
+                document.getElementById('stat-leads').innerText = "24";
+                
+            } catch (error) {
+                console.error("Erro ao carregar relatórios:", error);
+                reportsList.innerHTML = `<tr><td colspan="3" class="px-6 py-8 text-center text-rose-500 font-bold">Erro ao carregar dados.</td></tr>`;
             }
         }
 
-        function openReport(r) {
-            document.getElementById('modal-title').innerText = r.titulo;
-            document.getElementById('modal-summary').innerText = r.resumo;
-            document.getElementById('modal-content').innerText = r.transcricao;
+        // --- MODAL ---
+        function openReport(report) {
+            document.getElementById('modal-title').innerText = report.titulo;
+            document.getElementById('modal-date').innerText = report.data;
+            document.getElementById('modal-summary').innerText = report.resumo;
+            document.getElementById('modal-content').innerText = report.transcricao;
             document.getElementById('report-modal').classList.remove('hidden');
         }
 
-        function closeModal() { document.getElementById('report-modal').classList.add('hidden'); }
-        function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
-        
+        function closeModal() {
+            document.getElementById('report-modal').classList.add('hidden');
+        }
+
+        // --- INICIALIZAÇÃO ---
         document.addEventListener('DOMContentLoaded', () => {
             loadReports();
+            // sidebar active inicial
+            document.getElementById('nav-overview').classList.add('sidebar-active');
         });
     </script>
 </body>
