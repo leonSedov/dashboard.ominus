@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ominus tech · Automação Jurídica</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/.png">
     <!-- Tailwind + plugins -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
@@ -61,6 +63,80 @@
         ::-webkit-scrollbar-track { background: #e2e8f0; border-radius: 12px; }
         ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 12px; }
         ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+        /* TEMA DARK MODE */
+        body.dark-theme {
+            background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+        }
+        body.dark-theme .glass-sidebar {
+            background: rgba(2, 6, 23, 0.95);
+        }
+        body.dark-theme .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            border-color: rgba(148, 163, 184, 0.1);
+            color: #e2e8f0;
+        }
+        body.dark-theme .text-slate-800 {
+            color: #e2e8f0;
+        }
+        body.dark-theme .text-slate-600 {
+            color: #cbd5e1;
+        }
+        body.dark-theme .text-slate-500 {
+            color: #94a3b8;
+        }
+        body.dark-theme .text-slate-300 {
+            color: #cbd5e1;
+        }
+        body.dark-theme .bg-white\/70 {
+            background: rgba(15, 23, 42, 0.9);
+        }
+        body.dark-theme .bg-white\/50 {
+            background: rgba(30, 41, 59, 0.5);
+        }
+        body.dark-theme .border-white\/30 {
+            border-color: rgba(71, 85, 105, 0.3);
+        }
+        body.dark-theme .border-b {
+            border-color: rgba(71, 85, 105, 0.3);
+        }
+        body.dark-theme .bg-emerald-50 {
+            background: rgba(5, 150, 105, 0.1);
+        }
+        body.dark-theme .text-emerald-700 {
+            color: #6ee7b7;
+        }
+        body.dark-theme .text-emerald-600 {
+            color: #6ee7b7;
+        }
+        body.dark-theme .bg-slate-100\/50 {
+            background: rgba(71, 85, 105, 0.1);
+        }
+        body.dark-theme .bg-slate-100 {
+            background: rgba(71, 85, 105, 0.15);
+        }
+        body.dark-theme .bg-blue-600 {
+            background: #3b82f6;
+        }
+        body.dark-theme .hover\:bg-white\/20:hover {
+            background: rgba(148, 163, 184, 0.1);
+        }
+        body.dark-theme ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        body.dark-theme ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+        body.dark-theme ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+        .theme-toggle {
+            transition: transform 0.3s ease;
+        }
+        .theme-toggle:hover {
+            transform: rotate(20deg);
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col md:flex-row text-slate-800 antialiased">
@@ -140,6 +216,9 @@
                     <span class="w-2 h-2 bg-emerald-500 rounded-full mr-2 animate-pulse"></span>
                     Sistemas Online
                 </span>
+                <button onclick="toggleTheme()" class="p-2 text-slate-500 hover:text-slate-800 bg-white/50 rounded-xl hover:bg-white transition theme-toggle" title="Alternar tema">
+                    <i class="fas fa-moon" id="theme-icon"></i>
+                </button>
                 <button class="p-2 text-slate-500 hover:text-slate-800 bg-white/50 rounded-xl hover:bg-white transition">
                     <i class="fas fa-bell"></i>
                 </button>
@@ -374,6 +453,42 @@
             menu.classList.toggle('hidden');
             menu.classList.toggle('flex');
         }
+
+        // --- ALTERNAR TEMA (Dark Mode / Light Mode) ---
+        function toggleTheme() {
+            const body = document.body;
+            const isDarkMode = body.classList.contains('dark-theme');
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (isDarkMode) {
+                // Mudar para light mode
+                body.classList.remove('dark-theme');
+                themeIcon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'light');
+            } else {
+                // Mudar para dark mode
+                body.classList.add('dark-theme');
+                themeIcon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Inicializar tema ao carregar a página
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                themeIcon.className = 'fas fa-sun';
+            } else {
+                document.body.classList.remove('dark-theme');
+                themeIcon.className = 'fas fa-moon';
+            }
+        }
+
+        // Inicializar tema quando o DOM carrega
+        document.addEventListener('DOMContentLoaded', initTheme);
 
         // --- ALTERNAR SERVIÇO (igual ao original, apenas visual aprimorado) ---
         async function toggleService(service) {
