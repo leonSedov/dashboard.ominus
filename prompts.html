@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prompts Salvos · Ominus tech</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/fundo-preto.png">
     <!-- Tailwind + plugins -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
@@ -25,13 +27,6 @@
             -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255,255,255,0.5);
             box-shadow: 0 8px 32px rgba(0,0,0,0.04);
-        }
-        .hover-lift {
-            transition: transform 0.15s ease, box-shadow 0.2s ease;
-        }
-        .hover-lift:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 16px 32px -8px rgba(0,34,64,0.15);
         }
         .hover-lift {
             transition: transform 0.15s ease, box-shadow 0.2s ease;
@@ -63,6 +58,69 @@
         }
         .sidebar-collapsed nav a i {
             margin-right: 0 !important;
+        }
+
+        /* TEMA DARK MODE */
+        body.dark-theme {
+            background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+        }
+        body.dark-theme .glass-sidebar {
+            background: rgba(2, 6, 23, 0.95);
+        }
+        body.dark-theme .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            border-color: rgba(148, 163, 184, 0.1);
+            color: #e2e8f0;
+        }
+        body.dark-theme .text-slate-800 {
+            color: #e2e8f0;
+        }
+        body.dark-theme .text-slate-600 {
+            color: #cbd5e1;
+        }
+        body.dark-theme .text-slate-500 {
+            color: #94a3b8;
+        }
+        body.dark-theme .text-slate-300 {
+            color: #cbd5e1;
+        }
+        body.dark-theme .text-slate-400 {
+            color: #94a3b8;
+        }
+        body.dark-theme header {
+            background: rgba(15, 23, 42, 0.9) !important;
+            border-bottom-color: rgba(71, 85, 105, 0.3) !important;
+        }
+        body.dark-theme .bg-white\\70 {
+            background: rgba(15, 23, 42, 0.9) !important;
+        }
+        body.dark-theme .bg-white\\50 {
+            background: rgba(30, 41, 59, 0.5) !important;
+        }
+        body.dark-theme .bg-emerald-50 {
+            background: rgba(5, 150, 105, 0.1) !important;
+        }
+        body.dark-theme .text-emerald-700 {
+            color: #6ee7b7 !important;
+        }
+        body.dark-theme .border-white\\30 {
+            border-color: rgba(71, 85, 105, 0.3) !important;
+        }
+        body.dark-theme ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        body.dark-theme ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+        body.dark-theme ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+        .theme-toggle {
+            transition: transform 0.3s ease;
+        }
+        .theme-toggle:hover {
+            transform: rotate(20deg);
         }
     </style>
 </head>
@@ -133,12 +191,15 @@
     <main class="flex-1 flex flex-col overflow-x-hidden">
         <!-- Header com glass effect -->
         <header class="h-20 bg-white/70 backdrop-blur-md border-b border-white/30 flex items-center justify-between px-8 sticky top-0 z-40">
-            <h2 id="page-title" class="text-2xl font-semibold text-slate-800">Prompts Salvos</h2>
+            <h2 class="text-2xl font-semibold text-slate-800">Prompts Salvos</h2>
             <div class="flex items-center space-x-5">
                 <span class="flex items-center text-sm text-emerald-700 font-medium bg-emerald-50 px-3 py-1.5 rounded-full">
                     <span class="w-2 h-2 bg-emerald-500 rounded-full mr-2 animate-pulse"></span>
                     Sistemas Online
                 </span>
+                <button onclick="toggleTheme()" class="p-2 text-slate-500 hover:text-slate-800 bg-white/50 rounded-xl hover:bg-white transition theme-toggle" title="Alternar tema">
+                    <i class="fas fa-moon" id="theme-icon"></i>
+                </button>
                 <button class="p-2 text-slate-500 hover:text-slate-800 bg-white/50 rounded-xl hover:bg-white transition">
                     <i class="fas fa-bell"></i>
                 </button>
@@ -279,6 +340,42 @@
                 btn.innerHTML = '<i class="fas fa-angle-left"></i>';
             }
         }
+
+        // --- ALTERNAR TEMA (Dark Mode / Light Mode) ---
+        function toggleTheme() {
+            const body = document.body;
+            const isDarkMode = body.classList.contains('dark-theme');
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (isDarkMode) {
+                // Mudar para light mode
+                body.classList.remove('dark-theme');
+                themeIcon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'light');
+            } else {
+                // Mudar para dark mode
+                body.classList.add('dark-theme');
+                themeIcon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Inicializar tema ao carregar a página
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                themeIcon.className = 'fas fa-sun';
+            } else {
+                document.body.classList.remove('dark-theme');
+                themeIcon.className = 'fas fa-moon';
+            }
+        }
+
+        // Inicializar tema quando o DOM carrega
+        document.addEventListener('DOMContentLoaded', initTheme);
 
         // --- MODAL DE PROMPTS ---
         const areaDescriptions = {
