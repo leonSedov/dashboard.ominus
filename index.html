@@ -38,6 +38,29 @@
         ::-webkit-scrollbar-track { background: #e2e8f0; border-radius: 12px; }
         ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 12px; }
         ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+        
+        /* sidebar retrátil */
+        .sidebar-collapsed {
+            width: 4rem !important;
+        }
+        .sidebar-collapsed .nav-text,
+        .sidebar-collapsed .user-info,
+        .sidebar-collapsed .sidebar-header-text {
+            display: none;
+        }
+        .sidebar-collapsed .p-8 {
+            padding: 1rem !important; /* reduce padding when collapsed */
+        }
+        .sidebar-collapsed nav a {
+            justify-content: center;
+        }
+        .sidebar-collapsed nav a i {
+            margin-right: 0 !important;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #e2e8f0; border-radius: 12px; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 12px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col md:flex-row text-slate-800 antialiased">
@@ -62,35 +85,44 @@
             <a href="#" onclick="showPage('overview'); toggleMobileMenu()" class="block text-xl text-slate-300 py-2 border-b border-slate-700 hover:text-white transition">Visão Geral</a>
             <a href="#" onclick="showPage('reports'); toggleMobileMenu()" class="block text-xl text-slate-300 py-2 border-b border-slate-700 hover:text-white transition">Relatórios</a>
             <a href="#" onclick="showPage('whatsapp'); toggleMobileMenu()" class="block text-xl text-slate-300 py-2 border-b border-slate-700 hover:text-white transition">Config. WhatsApp</a>
+            <a href="prompts.html" class="block text-xl text-slate-300 py-2 border-b border-slate-700 hover:text-white transition">Prompts Salvos</a>
         </nav>
     </div>
 
     <!-- Sidebar Desktop (glass) -->
-    <aside class="w-72 glass-sidebar text-white flex-shrink-0 hidden md:flex flex-col">
-        <div class="p-8">
-            <h1 class="text-3xl font-light tracking-tight text-blue-300">Ominus<span class="font-bold text-white">tech</span></h1>
-            <p class="text-xs text-slate-400 uppercase tracking-widest mt-1">Sistemas Jurídicos</p>
+    <aside class="w-72 glass-sidebar text-white flex-shrink-0 hidden md:flex flex-col transition-all duration-300">
+        <div class="p-8 relative">
+            <h1 class="text-3xl font-light tracking-tight text-blue-300 sidebar-header-text">Ominus<span class="font-bold text-white">tech</span></h1>
+            <p class="text-xs text-slate-400 uppercase tracking-widest mt-1 sidebar-header-text">Sistemas Jurídicos</p>
+            <!-- botão de retrair/expandir -->
+            <button id="sidebar-toggle-btn" onclick="toggleSidebar()" class="absolute top-4 right-4 text-slate-300 hover:text-white">
+                <i class="fas fa-angle-left"></i>
+            </button>
         </div>
         
         <nav class="mt-4 flex-1 space-y-1 px-4">
             <a href="#" onclick="showPage('overview')" id="nav-overview" class="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:bg-white/10 transition-all sidebar-active">
                 <i class="fas fa-chart-line w-5 mr-3 text-blue-400"></i>
-                <span class="font-medium">Visão Geral</span>
+                <span class="font-medium nav-text">Visão Geral</span>
             </a>
             <a href="#" onclick="showPage('reports')" id="nav-reports" class="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:bg-white/10 transition-all">
                 <i class="fas fa-file-contract w-5 mr-3 text-indigo-400"></i>
-                <span class="font-medium">Relatórios</span>
+                <span class="font-medium nav-text">Relatórios</span>
             </a>
             <a href="#" onclick="showPage('whatsapp')" id="nav-whatsapp" class="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:bg-white/10 transition-all">
                 <i class="fab fa-whatsapp w-5 mr-3 text-green-400"></i>
-                <span class="font-medium">Config. WhatsApp</span>
+                <span class="font-medium nav-text">Config. WhatsApp</span>
+            </a>
+            <a href="prompts.html" id="nav-prompts" class="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:bg-white/10 transition-all">
+                <i class="fas fa-save w-5 mr-3 text-yellow-400"></i>
+                <span class="font-medium nav-text">Prompts Salvos</span>
             </a>
         </nav>
 
         <div class="p-6 border-t border-white/10 mt-auto">
             <div class="flex items-center">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white font-bold shadow-lg">AD</div>
-                <div class="ml-3">
+                <div class="ml-3 user-info">
                     <p class="text-sm font-medium">Dr. Advogado</p>
                     <p class="text-xs text-slate-400">Plano Premium</p>
                 </div>
@@ -272,6 +304,7 @@
                     </div>
                 </div>
             </section>
+
         </div>
     </main>
 
@@ -524,11 +557,32 @@
             document.getElementById('report-modal').classList.add('hidden');
         }
 
+        // --- SIDEBAR RETRÁTIL ---
+        function toggleSidebar() {
+            const aside = document.querySelector('aside');
+            const btn = document.getElementById('sidebar-toggle-btn');
+            aside.classList.toggle('sidebar-collapsed');
+            if (aside.classList.contains('sidebar-collapsed')) {
+                btn.innerHTML = '<i class="fas fa-angle-right"></i>';
+            } else {
+                btn.innerHTML = '<i class="fas fa-angle-left"></i>';
+            }
+        }
+
+
         // --- INICIALIZAÇÃO ---
         document.addEventListener('DOMContentLoaded', () => {
             loadReports();
             // sidebar active inicial
             document.getElementById('nav-overview').classList.add('sidebar-active');
+
+            // handle hash navigation from other pages
+            const hash = window.location.hash.replace('#','');
+            if (hash && ['overview','reports','whatsapp'].includes(hash)) {
+                showPage(hash);
+                // scroll to top in case
+                window.scrollTo(0,0);
+            }
         });
     </script>
 </body>
