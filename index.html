@@ -23,6 +23,10 @@
         body {
             background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 100%);
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> fe6461b7e47d21b75928c7ecad9958cc2f3bacc0
         .glass-sidebar {
             background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(12px);
@@ -558,7 +562,11 @@
     <script>
         // --- WEBHOOKS N8N (substitua pelos seus endpoints) ---
         const WEBHOOK_TOGGLE = "https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook/dashboard";
+<<<<<<< HEAD
         const WEBHOOK_GET_REPORTS = "https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook-test/dashboard";
+=======
+        const WEBHOOK_GET_REPORTS = "https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook-test/relatorios-ominis";
+>>>>>>> fe6461b7e47d21b75928c7ecad9958cc2f3bacc0
         const WEBHOOK_QR_CODE = "https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook/generate-qr";
         const WEBHOOK_SAVE_PROMPT = "https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook/save-prompt"; // novo
 
@@ -570,21 +578,49 @@
 
         // --- NAVEGAÇÃO SPA ---
         function showPage(pageId) {
+            // 1. Esconde todas as seções usando o seletor de section
             document.querySelectorAll('section').forEach(section => section.classList.add('hidden'));
+<<<<<<< HEAD
             document.getElementById(`page-${pageId}`).classList.remove('hidden');
 
+=======
+
+            // 2. Mostra a seção correta (adicionando o prefixo page-)
+            const targetPage = document.getElementById(`page-${pageId}`);
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+            }
+
+            // 3. Atualiza o Título
+>>>>>>> fe6461b7e47d21b75928c7ecad9958cc2f3bacc0
             const titles = {
                 'overview': 'Visão Geral',
                 'reports': 'Relatórios de Reuniões',
                 'whatsapp': 'Configuração WhatsApp'
             };
+<<<<<<< HEAD
             document.getElementById('page-title').innerText = titles[pageId];
 
             document.querySelectorAll('aside nav a').forEach(nav => nav.classList.remove('sidebar-active'));
             const activeNav = document.getElementById(`nav-${pageId}`);
             if (activeNav) activeNav.classList.add('sidebar-active');
+=======
+            document.getElementById('page-title').innerText = titles[pageId] || 'Ominus Tech';
+>>>>>>> fe6461b7e47d21b75928c7ecad9958cc2f3bacc0
 
-            if (pageId === 'reports') loadReports();
+            // No item 4 da sua função showPage, altere para:
+            document.querySelectorAll('aside nav a').forEach(nav => {
+                if (nav) nav.classList.remove('sidebar-active');
+            });
+            const activeNav = document.getElementById(`nav-${pageId}`);
+            if (activeNav) {
+                activeNav.classList.add('sidebar-active');
+            }
+
+            // 5. Carrega dados se for a página de relatórios
+            if (pageId === 'reports') {
+                loadReports();
+            }
         }
 
         function toggleMobileMenu() {
@@ -754,24 +790,30 @@
             }
         }
 
-        // --- CARREGAR RELATÓRIOS (mock + webhook) ---
+        // --- CARREGAR RELATÓRIOS (Data, Reunião, Ação) ---
         async function loadReports() {
-            const reportsList = document.getElementById('reports-list');
-            reportsList.innerHTML = `<tr><td colspan="3" class="px-6 py-8 text-center text-slate-400"><i class="fas fa-spinner fa-pulse mr-2"></i> Buscando dados...</td></tr>`;
+            const list = document.getElementById('reports-list');
+            const icon = document.getElementById('refresh-icon');
+
+            if (icon) icon.classList.add('fa-spin');
+            list.innerHTML = '<tr><td colspan="3" class="px-6 py-10 text-center text-slate-400">Carregando dados...</td></tr>';
 
             try {
-                const response = await fetch(WEBHOOK_GET_REPORTS).catch(() => null);
-                let reports = [];
-
-                if (response && response.ok) {
-                    reports = await response.json();
-                } else {
-                    reports = [
-                        { id: 1, data: '04/02/2026', titulo: 'Audiência de Conciliação - Silva vs. Oliveira', resumo: 'Acordo parcial estabelecido sobre as parcelas atrasadas. Próxima reunião em 15 dias.', transcricao: 'Início da gravação... Advogado A: Bom dia. Advogado B: Bom dia. Juiz: Iniciando os trabalhos para tentativa de conciliação...' },
-                        { id: 2, data: '03/02/2026', titulo: 'Consultoria Tributária - TechMax', resumo: 'Discussão sobre planejamento tributário 2026. Foco em redução de ICMS.', transcricao: 'Transcrição completa da consultoria técnica sobre impostos estaduais e federais para o próximo ano fiscal...' }
-                    ];
+                // Esta é a parte que você deve atualizar:
+                const response = await fetch(WEBHOOK_GET_REPORTS, {
+                    method: 'GET',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "ngrok-skip-browser-warning": "true" // Isso remove a tela de interrupção do ngrok
+                    }
+                });
+                
+                const contentType = response.headers.get("content-type");
+                if (!response.ok || !contentType || !contentType.includes("application/json")) {
+                    throw new Error("O n8n não retornou um JSON válido.");
                 }
 
+<<<<<<< HEAD
                 reportsList.innerHTML = '';
                 reports.forEach(report => {
                     const tr = document.createElement('tr');
@@ -792,9 +834,49 @@
                 document.getElementById('stat-audios').innerText = reports.length * 3;
                 document.getElementById('stat-leads').innerText = "24";
 
+=======
+                // --- AQUI ENTRA A MUDANÇA ---
+                let data = await response.json();
+
+                // Se o n8n enviar apenas um objeto (como o que você testou), 
+                // transformamos em Array para o .forEach não quebrar
+                if (!Array.isArray(data)) {
+                    data = [data];
+                }
+
+                list.innerHTML = '';
+                // ----------------------------
+
+                if (data.length === 0) {
+                    list.innerHTML = '<tr><td colspan="3" class="px-6 py-10 text-center text-slate-400">Nenhum relatório encontrado.</td></tr>';
+                    return;
+                }
+
+                data.forEach(item => {
+                    // Mapeando os nomes das colunas que você recebeu no teste (Data, Reuniao, acao)
+                    const dataFormatada = item.Data ? new Date(item.Data).toLocaleDateString('pt-BR') : '---';
+                    const titulo = item.Reuniao || 'Sem título';
+                    const acao = item.acao || '---';
+
+                    const row = `
+                <tr class="hover:bg-white/20 transition cursor-pointer" onclick="openModal('${titulo}', '${dataFormatada}', '${item.resumo || ""}', '${item.transcricao || ""}')">
+                    <td class="px-6 py-4 text-sm">${dataFormatada}</td>
+                    <td class="px-6 py-4 text-sm font-medium text-slate-800">${titulo}</td>
+                    <td class="px-6 py-4 text-right">
+                        <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-lg">${acao}</span>
+                    </td>
+                </tr>`;
+                    list.insertAdjacentHTML('beforeend', row);
+                });
+
+>>>>>>> fe6461b7e47d21b75928c7ecad9958cc2f3bacc0
             } catch (error) {
                 console.error("Erro ao carregar relatórios:", error);
-                reportsList.innerHTML = `<tr><td colspan="3" class="px-6 py-8 text-center text-rose-500 font-bold">Erro ao carregar dados.</td></tr>`;
+                list.innerHTML = `<tr><td colspan="3" class="px-6 py-10 text-center text-rose-500">
+            <i class="fas fa-exclamation-triangle mr-2"></i> Erro ao conectar com n8n.
+        </td></tr>`;
+            } finally {
+                if (icon) icon.classList.remove('fa-spin');
             }
         }
 
